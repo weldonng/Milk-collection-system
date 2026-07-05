@@ -1,0 +1,95 @@
+﻿@page
+@model MilkCollectionSystem.Pages.MilkRecordsModel
+
+<h2 class="mb-3">🥛 Milk Records</h2>
+
+<!-- SEARCH + FILTER -->
+<form method="get" class="mb-3">
+
+    <div class="mb-2">
+        <input type="text"
+               name="search"
+               value="@Model.Search"
+               placeholder="Search farmer..."
+               class="form-control" />
+    </div>
+
+    <div class="mb-2">
+        <input type="date"
+               name="date"
+               value="@Model.Date?.ToString("yyyy-MM-dd")"
+               class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        🔍 Filter
+    </button>
+
+    <a asp-page="./MilkRecords" class="btn btn-secondary">
+        Reset
+    </a>
+
+</form>
+
+<!-- TABLE -->
+<table class="table table-striped table-bordered">
+
+    <thead class="table-dark">
+        <tr>
+            <th>Farmer</th>
+            <th>Litres</th>
+            <th>Amount (KES)</th>
+            <th>Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @if (Model.Records != null && Model.Records.Any())
+        {
+            foreach (var item in Model.Records)
+            {
+                <tr>
+                    <td>@item.Farmer.Name</td>
+                    <td>@item.Litres</td>
+                    <td>@item.Amount</td>
+                    <td>@item.CollectionDate.ToString("dd/MM/yyyy HH:mm")</td>
+
+                    <td>
+                        <!-- DELETE -->
+                        <form method="post"
+                              asp-page-handler="Delete"
+                              asp-route-id="@item.Id"
+                              style="display:inline;">
+
+                            <button type="submit"
+                                    class="btn btn-danger btn-sm"
+                                    onclick="return confirm('Delete this record?')">
+                                Delete
+                            </button>
+                        </form>
+
+                        <!-- EDIT -->
+                        <a class="btn btn-primary btn-sm"
+                           asp-page="/EditMilk"
+                           asp-route-id="@item.Id">
+                            Edit
+                        </a>
+
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center text-muted">
+                    No milk records found
+                </td>
+            </tr>
+        }
+
+    </tbody>
+
+</table>

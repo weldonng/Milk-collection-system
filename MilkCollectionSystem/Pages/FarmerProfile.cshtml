@@ -1,0 +1,45 @@
+﻿@page "{id:int}"
+@model MilkCollectionSystem.Pages.FarmerProfileModel
+
+<h2>👨‍🌾 Farmer Profile</h2>
+
+<hr />
+
+<h4>Details</h4>
+
+<p><strong>Name:</strong> @Model.Farmer.Name</p>
+<p><strong>Phone:</strong> @Model.Farmer.Phone</p>
+
+<hr />
+
+<h4>Summary</h4>
+
+<p>🥛 Total Litres: <strong>@Model.TotalLitres</strong></p>
+<p>💰 Total Earnings: <strong>KES @Model.TotalEarnings</strong></p>
+
+<hr />
+
+<h4>Milk History</h4>
+
+<table class="table table-striped table-bordered">
+
+    <thead class="table-dark">
+        <tr>
+            <th>Date</th>
+            <th>Litres</th>
+            <th>Amount</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model.Records)
+        {
+            <tr>
+                <td>@item.CollectionDate.ToString("dd/MM/yyyy")</td>
+                <td>@item.Litres</td>
+                <td>@item.Amount</td>
+            </tr>
+        }
+    </tbody>
+
+</table>

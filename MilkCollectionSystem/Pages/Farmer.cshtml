@@ -1,0 +1,46 @@
+﻿@page
+@model MilkCollectionSystem.Pages.FarmersModel
+
+<h2>Farmers List</h2>
+
+<table border="1" cellpadding="10">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var f in Model.Farmers)
+    {
+        <tr>
+            <td>@f.Id</td>
+            <td>@f.Name</td>
+            <td>@f.Phone</td>
+
+            <td>
+                <a class="btn btn-primary btn-sm"
+                   asp-page="/EditFarmer"
+                   asp-route-id="@f.Id">
+                    Edit
+                </a>
+
+                <a asp-page="/FarmerProfile"
+                   asp-route-id="@f.Id"
+                   class="btn btn-info btn-sm">
+                    View Profile
+                </a>
+
+                <form method="post"
+                      asp-page-handler="Delete"
+                      asp-route-id="@f.Id"
+                      style="display:inline;">
+                    <button type="submit"
+                            class="btn btn-danger btn-sm">
+                        Delete
+                    </button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>

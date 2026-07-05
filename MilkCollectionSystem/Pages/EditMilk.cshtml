@@ -1,0 +1,19 @@
+﻿@page "{id}"
+@model MilkCollectionSystem.Pages.EditMilkModel
+
+<h2>Edit Milk Record</h2>
+
+<form method="post">
+
+    <label>Farmer Name:</label><br />
+    <input asp-for="Record.FarmerId" /><br /><br />
+
+    <label>Litres:</label><br />
+    <input asp-for="Record.Litres" /><br /><br />
+
+    <label>Amount:</label><br />
+    <input asp-for="Record.Amount" /><br /><br />
+
+    <button type="submit" class="btn btn-success">Update</button>
+
+</form>

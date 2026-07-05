@@ -1,0 +1,116 @@
+﻿@page
+@model MilkCollectionSystem.Pages.DashboardModel
+
+<style>
+    .dash-card {
+        border-radius: 15px;
+        color: white;
+        padding: 20px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+        transition: 0.3s;
+    }
+
+        .dash-card:hover {
+            transform: translateY(-5px);
+        }
+
+    .blue {
+        background: linear-gradient(135deg, #4e73df, #224abe);
+    }
+
+    .green {
+        background: linear-gradient(135deg, #1cc88a, #13855c);
+    }
+
+    .yellow {
+        background: linear-gradient(135deg, #f6c23e, #dda20a);
+    }
+
+    .red {
+        background: linear-gradient(135deg, #e74a3b, #be2617);
+    }
+
+    .chart-box {
+        background: white;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+        margin-top: 20px;
+    }
+</style>
+
+<h2 class="mb-4">🥛 Milk Collection Dashboard</h2>
+
+<!-- FIX: show role safely -->
+@if (!string.IsNullOrEmpty(Model.UserRole))
+{
+    <h5>Logged in as: @Model.UserRole</h5>
+}
+else
+{
+    <h5>Logged in as: Unknown</h5>
+}
+
+<div class="row">
+
+    <div class="col-md-3 mb-3">
+        <div class="dash-card blue text-center">
+            <h5>Deliveries</h5>
+            <h2>@Model.TotalDeliveries</h2>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="dash-card green text-center">
+            <h5>Total Litres</h5>
+            <h2>@Model.TotalLitres</h2>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="dash-card yellow text-center">
+            <h5>Payments</h5>
+            <h2>KES @Model.TotalPayments</h2>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="dash-card red text-center">
+            <h5>Farmers</h5>
+            <h2>@Model.TotalFarmers</h2>
+        </div>
+    </div>
+
+</div>
+
+<!-- CHART SECTION -->
+<div class="chart-box">
+    <h4>📊 Milk Production Analytics</h4>
+    <canvas id="milkChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const labels = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Labels));
+    const data = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.LitresData));
+
+    new Chart(document.getElementById('milkChart'), {
+    type: 'bar',
+    data: {
+    labels: labels,
+    datasets: [{
+    label: 'Litres per Farmer',
+    data: data,
+    backgroundColor: '#4e73df',
+    borderRadius: 8
+    }]
+    },
+    options: {
+    responsive: true,
+    plugins: {
+    legend: { display: true }
+    }
+    }
+    });
+</script>
